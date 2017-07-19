@@ -1,4 +1,4 @@
-
+{
   "provisioners": [
     {
       "type": "shell",
