@@ -7,7 +7,7 @@ This example build configuration installs and configures RHEL 7 x86_64 using Ans
 
 The example can be modified to use more Ansible roles, plays, and included playbooks to fully configure (or partially) configure a box file suitable for deployment for development environments.
 
-## Patertinity
+## Paternity
 
 This repo is a shamelessly fork from [Jeff Geerling](https://github.com/geerlingguy/packer-centos-7), modified to create a Red Hat Enterprise Linux Vagrant Box.
 So all gratitude should go to him, and all criticism to myself.
