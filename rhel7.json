@@ -1,99 +1,99 @@
 {
-  "provisioners": [
-    {
-      "type": "shell",
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
-      "script": "scripts/ansible.sh",
-      "environment_vars": [
-        "RHSM_USERNAME={{user `rhsm_username`}}",
-        "RHSM_PASSWORD={{user `rhsm_password`}}",
-        "RHSM_POOL={{user `rhsm_pool`}}",
-        "ANSIBLE_REPOS={{user `ansible_repos`}}"
-      ]
-    },
-    {
-      "type": "ansible-local",
-      "playbook_file": "ansible/main.yml",
-      "galaxy_file": "requirements.yml"
-    },
-    {
-      "type": "shell",
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
-      "script": "scripts/cleanup.sh"
-    }
-  ],
-  "builders": [
-    {
-      "type": "virtualbox-iso",
-      "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
-      ],
-      "boot_wait": "10s",
-      "disk_size": 81920,
-      "guest_os_type": "RedHat_64",
-      "headless": true,
-      "http_directory": "http",
-      "iso_urls": [
-        "iso/rhel-server-7.3-x86_64-dvd.iso"
-      ],
-      "iso_checksum_type": "sha256",
-      "iso_checksum": "120acbca7b3d55465eb9f8ef53ad7365f2997d42d4f83d7cc285bf5c71e1131f",
-      "ssh_username": "vagrant",
-      "ssh_password": "vagrant",
-      "ssh_port": 22,
-      "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
-      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-rhel-7-x86_64",
-      "vboxmanage": [
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--memory",
-          "512"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--cpus",
-          "2"
-        ]
-      ]
-    },
-      {
-      "type": "vmware-iso",
-      "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
-      ],
-      "boot_wait": "10s",
-      "disk_size": 81920,
-      "guest_os_type": "rhel7-64",
-      "headless": true,
-      "http_directory": "http",
-      "iso_urls": [
-        "iso/rhel-server-7.3-x86_64-dvd.iso"
-      ],
-      "iso_checksum_type": "sha256",
-      "iso_checksum": "120acbca7b3d55465eb9f8ef53ad7365f2997d42d4f83d7cc285bf5c71e1131f",
-      "ssh_username": "vagrant",
-      "ssh_password": "vagrant",
-      "ssh_port": 22,
-      "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
-      "tools_upload_flavor": "linux",
-      "vm_name": "packer-rhel-7-x86_64",
-      "vmx_data": {
-        "cpuid.coresPerSocket": "1",
-        "memsize": "512",
-        "numvcpus": "2"
-      }
-    }
-  ],
-  "post-processors": [
-    {
-      "output": "builds/{{.Provider}}-rhel7.box",
-      "type": "vagrant"
-    }
-  ]
+    "builders": [
+        {
+            "boot_command": [
+                "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+            ],
+            "boot_wait": "10s",
+            "disk_size": 81920,
+            "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+            "guest_os_type": "RedHat_64",
+            "headless": true,
+            "http_directory": "http",
+            "iso_checksum": "120acbca7b3d55465eb9f8ef53ad7365f2997d42d4f83d7cc285bf5c71e1131f",
+            "iso_checksum_type": "sha256",
+            "iso_urls": [
+                "iso/rhel-server-7.6-x86_64-dvd.iso"
+            ],
+            "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
+            "ssh_password": "vagrant",
+            "ssh_port": 22,
+            "ssh_username": "vagrant",
+            "ssh_wait_timeout": "10000s",
+            "type": "virtualbox-iso",
+            "vboxmanage": [
+                [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--memory",
+                    "512"
+                ],
+                [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--cpus",
+                    "2"
+                ]
+            ],
+            "virtualbox_version_file": ".vbox_version",
+            "vm_name": "packer-rhel-7-x86_64"
+        },
+        {
+            "boot_command": [
+                "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+            ],
+            "boot_wait": "10s",
+            "disk_size": 81920,
+            "guest_os_type": "rhel7-64",
+            "headless": true,
+            "http_directory": "http",
+            "iso_checksum": "60a0be5aeed1f08f2bb7599a578c89ec134b4016cd62a8604b29f15d543a469c",
+            "iso_checksum_type": "sha256",
+            "iso_urls": [
+                "iso/rhel-server-7.3-x86_64-dvd.iso"
+            ],
+            "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
+            "ssh_password": "vagrant",
+            "ssh_port": 22,
+            "ssh_username": "vagrant",
+            "ssh_wait_timeout": "10000s",
+            "tools_upload_flavor": "linux",
+            "type": "vmware-iso",
+            "vm_name": "packer-rhel-7-x86_64",
+            "vmx_data": {
+                "cpuid.coresPerSocket": "1",
+                "memsize": "512",
+                "numvcpus": "2"
+            }
+        }
+    ],
+    "post-processors": [
+        {
+            "output": "builds/{{.Provider}}-rhel7.box",
+            "type": "vagrant"
+        }
+    ],
+    "provisioners": [
+        {
+            "environment_vars": [
+                "RHSM_USERNAME={{user `rhsm_username`}}",
+                "RHSM_PASSWORD={{user `rhsm_password`}}",
+                "RHSM_POOL={{user `rhsm_pool`}}",
+                "ANSIBLE_REPOS={{user `ansible_repos`}}"
+            ],
+            "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+            "script": "scripts/ansible.sh",
+            "type": "shell"
+        },
+        {
+            "galaxy_file": "requirements.yml",
+            "playbook_file": "ansible/main.yml",
+            "type": "ansible-local"
+        },
+        {
+            "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+            "script": "scripts/cleanup.sh",
+            "type": "shell"
+        }
+    ]
 }
